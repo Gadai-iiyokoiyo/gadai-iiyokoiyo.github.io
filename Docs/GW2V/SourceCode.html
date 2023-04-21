@@ -1,17 +1,19 @@
 <pre>
-<h2>
-import random
+<h2>import random
 import json
 import sys
 max_rs=400
 if(len(sys.argv)==1):
     WordVec={"PlayStation":random.uniform(0,max_rs),
-    "Sony":random.uniform(0,max_rs),"Nintendo":random.uniform(0,max_rs),}
+    "Sony":random.uniform(0,max_rs),"Nintendo":random.uniform(0,max_rs),"花札":random.uniform(0,max_rs),"100円":random.uniform(0,max_rs)}
     for i in range(10):
         WordVec["GameConsole"]=WordVec["PlayStation"]-WordVec["Sony"]
         WordVec["PlayStation"]=WordVec["GameConsole"]+WordVec["Sony"]
         WordVec["NintendoSwitch"]=WordVec["GameConsole"]+WordVec["Nintendo"]
         WordVec["GameConsole"]=WordVec["NintendoSwitch"]-WordVec["Nintendo"]
+        WordVec["花札屋"]=WordVec["Nintendo"]-WordVec["GameConsole"]
+        WordVec["店"]=WordVec["花札屋"]-WordVec["花札"]
+        WordVec["100円ショップ"]=WordVec["店"]+WordVec["100円"]
         
     json.dump(WordVec, open("WordVec.json","w",encoding="utf-8"), indent=4)
 else:
