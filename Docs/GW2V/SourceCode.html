@@ -1,0 +1,46 @@
+<pre>
+<h2>
+import random
+import json
+import sys
+max_rs=400
+if(len(sys.argv)==1):
+    WordVec={"PlayStation":random.uniform(0,max_rs),
+    "Sony":random.uniform(0,max_rs),"Nintendo":random.uniform(0,max_rs),}
+    for i in range(10):
+        WordVec["GameConsole"]=WordVec["PlayStation"]-WordVec["Sony"]
+        WordVec["PlayStation"]=WordVec["GameConsole"]+WordVec["Sony"]
+        WordVec["NintendoSwitch"]=WordVec["GameConsole"]+WordVec["Nintendo"]
+        WordVec["GameConsole"]=WordVec["NintendoSwitch"]-WordVec["Nintendo"]
+        
+    json.dump(WordVec, open("WordVec.json","w",encoding="utf-8"), indent=4)
+else:
+    WordVec=json.load(open(sys.argv[1],"r",encoding="utf-8"))
+reverse_WordVec={v:k for k,v in WordVec.items()}
+while True:
+    try:
+        originalText=input(">").replace(" ","")
+        if("+" in originalText):
+            originalText_Splits=originalText.split("+")
+            a=originalText_Splits[0]
+            b=originalText_Splits[1]
+            try:
+                print(reverse_WordVec[WordVec[a]+WordVec[b]])
+            except:
+                print(f"エラーが発生しました。:{WordVec[a]+WordVec[b]}")
+        elif("-" in originalText):
+            originalText_Splits=originalText.split("-")
+            a=originalText_Splits[0]
+            b=originalText_Splits[1]
+            try:
+                print(reverse_WordVec[WordVec[a]-WordVec[b]])
+            except:
+                print(f"エラーが発生しました。:{WordVec[a]-WordVec[b]}")
+        else:
+            print("+ もしくは - を書いてください。")
+    except IndexError:
+        print("エラーが発生しました。マイナス記号もしくはプラス記号の前と後ろに単語を書いてください。")
+    except KeyError:
+        print("エラーが発生しました。辞書を参照してみましたが、そのような単語が見つからないためです。")
+</h2>
+<pre>
