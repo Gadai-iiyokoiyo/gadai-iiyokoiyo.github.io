@@ -1,0 +1,66 @@
+<h1>TEST</h1>
+試しに、GameConsole+Sonyと打ってみてください。<br>
+<input id="input_s">=<span id="LOG"></span>
+<script>
+  const wordVec = {
+    "PlayStation": 34.72483938516956,
+    "Sony": 491.54636741491083,
+    "Nintendo": 429.77566714528626,
+    "\u82b1\u672d": 262.9735268128218,
+    "100\u5186": 269.1470068732277,
+    "\u738b": 2.179951196815022,
+    "\u7537": 215.28179658469,
+    "\u5973": 493.0452262419914,
+    "\u5b50\u4f9b": 158.81610838832694,
+    "GameConsole": -456.8215280297413,
+    "NintendoSwitch": -27.04586088445501,
+    "\u82b1\u672d\u5c4b": 886.5971951750275,
+    "\u5e97": 623.6236683622058,
+    "\u5973\u738b": 495.2251774388064,
+    "\u738b\u5b50": 160.99605958514195,
+    "\u738b\u5973": 654.0412858271334,
+    "100\u5186\u30b7\u30e7\u30c3\u30d7": 892.7706752354335
+};
+
+const reverseWordVec = {};
+for (const key in wordVec) {
+  reverseWordVec[wordVec[key]] = key;
+}
+
+setInterval(()=>{
+  try {
+    const originalText = document.getElementById("input_s").value.replace(" ", "");
+    if (originalText.includes("+")) {
+      const originalTextSplits = originalText.split("+");
+      const a = originalTextSplits[0];
+      const b = originalTextSplits[1];
+      try {
+        document.getElementById("LOG").innerText=reverseWordVec[wordVec[a] + wordVec[b]];
+      } catch {
+        document.getElementById("LOG").innerText=`エラーが発生しました。:${wordVec[a] + wordVec[b]}`;
+      }
+    } else if (originalText.includes("-")) {
+      const originalTextSplits = originalText.split("-");
+      const a = originalTextSplits[0];
+      const b = originalTextSplits[1];
+      try {
+        document.getElementById("LOG").innerText=reverseWordVec[wordVec[a] - wordVec[b]];
+      } catch {
+        document.getElementById("LOG").innerText=`エラーが発生しました。:${wordVec[a] - wordVec[b]}`;
+      }
+    } else {
+      document.getElementById("LOG").innerText="+ もしくは - を書いてください。";
+    }
+  } catch (error) {
+    if (error instanceof TypeError || error instanceof ReferenceError) {
+      document.getElementById("LOG").innerText=
+        "エラーが発生しました。マイナス記号もしくはプラス記号の前と後ろに単語を書いてください。"
+    } else if (error instanceof KeyError) {
+      document.getElementById("LOG").innerText=
+        "エラーが発生しました。辞書を参照してみましたが、そのような単語が見つからないためです。"
+    } else {
+      throw error;
+    }
+  }
+},10);
+</script>
