@@ -1,11 +1,12 @@
-<pre>
-<h2>import random
+import random
 import json
 import sys
-max_rs=400
+max_rs=500
 if(len(sys.argv)==1):
     WordVec={"PlayStation":random.uniform(0,max_rs),
-    "Sony":random.uniform(0,max_rs),"Nintendo":random.uniform(0,max_rs),"花札":random.uniform(0,max_rs),"100円":random.uniform(0,max_rs)}
+    "Sony":random.uniform(0,max_rs),"Nintendo":random.uniform(0,max_rs),"花札":random.uniform(0,max_rs),"100円":random.uniform(0,max_rs)
+    ,"王":random.uniform(0,max_rs),"男":random.uniform(0,max_rs),"女":random.uniform(0,max_rs),
+    "子供":random.uniform(0,max_rs)}
     for i in range(10):
         WordVec["GameConsole"]=WordVec["PlayStation"]-WordVec["Sony"]
         WordVec["PlayStation"]=WordVec["GameConsole"]+WordVec["Sony"]
@@ -13,6 +14,10 @@ if(len(sys.argv)==1):
         WordVec["GameConsole"]=WordVec["NintendoSwitch"]-WordVec["Nintendo"]
         WordVec["花札屋"]=WordVec["Nintendo"]-WordVec["GameConsole"]
         WordVec["店"]=WordVec["花札屋"]-WordVec["花札"]
+        WordVec["花札"]=WordVec["花札屋"]-WordVec["店"]
+        WordVec["女王"]=WordVec["王"]+WordVec["女"]
+        WordVec["王子"]=WordVec["王"]+WordVec["子供"]
+        WordVec["王女"]=WordVec["王子"]+WordVec["女"]
         WordVec["100円ショップ"]=WordVec["店"]+WordVec["100円"]
         
     json.dump(WordVec, open("WordVec.json","w",encoding="utf-8"), indent=4)
@@ -44,5 +49,4 @@ while True:
         print("エラーが発生しました。マイナス記号もしくはプラス記号の前と後ろに単語を書いてください。")
     except KeyError:
         print("エラーが発生しました。辞書を参照してみましたが、そのような単語が見つからないためです。")
-</h2>
-<pre>
+    
